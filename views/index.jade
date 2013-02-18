@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  h2= title
+  form(action='/movies/add', method='post', id="addMovies")
+    | 1. 
+    input(name='title')
+    | Genre: 
+    select(name='genre')
+      option(value='Action') Action
+      option(value='Adventure') Adventure
+      option(value='Comedy') Comedy
+      option(value='Documentary') Documentary
+      option(value='Drama') Drama
+      option(value='Family') Family
+      option(value='Horror') Horror
+      option(value='Musical') Musical
+      option(value='SciFi and Fantasy') SciFi and Fantasy
+      option(value='Sports') Sports
+
+
+    br 
+    | 2. 
+    input(name='title')
+    | Genre: 
+    select(name='genre')
+      option(value='Action') Action
+      option(value='Adventure') Adventure
+      option(value='Comedy') Comedy
+      option(value='Documentary') Documentary
+      option(value='Drama') Drama
+      option(value='Family') Family
+      option(value='Horror') Horror
+      option(value='Musical') Musical
+      option(value='SciFi and Fantasy') SciFi and Fantasy
+      option(value='Sports') Sports
+    br
+
+    | 3. 
+    input(name='title')
+    | Genre: 
+    select(name='genre')
+      option(value='Action') Action
+      option(value='Adventure') Adventure
+      option(value='Comedy') Comedy
+      option(value='Documentary') Documentary
+      option(value='Drama') Drama
+      option(value='Family') Family
+      option(value='Horror') Horror
+      option(value='Musical') Musical
+      option(value='SciFi and Fantasy') SciFi and Fantasy
+      option(value='Sports') Sportsad
+    br
+    br
+    button(type='submit')
+      |Go

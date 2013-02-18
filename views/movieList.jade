@@ -1,0 +1,9 @@
+extend layout
+
+block content
+  | All Movies:
+  br
+  br
+  each movie, i in list
+    | #{movie.title}
+    br
