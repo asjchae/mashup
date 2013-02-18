@@ -11,3 +11,7 @@ What I have so far:
 Where I'm stuck:
 
 * Finding movies that pre-exist in the database in order to add set IDs to them.
+
+What I need to do after that:
+
+* The ability to search for movies related to a set ID.
