@@ -7,6 +7,6 @@ What I have so far:
 * The ability to add movies.
 * The ability to relate a movie to a set ID.
 
-WHere I'm stuck:
+Where I'm stuck:
 
 * Finding movies that pre-exist in the database in order to add set IDs to them.
