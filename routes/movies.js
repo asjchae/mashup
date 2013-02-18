@@ -7,7 +7,6 @@ exports.list = function(req, res) {
   	if (err) {
   		console.log("error", err);
   	} else {
-  		console.log(response);
   		var movies = response.sort(['title', -1]);
   		res.render('movieList', {title: "All Movies", list: movies});
   	}
@@ -17,19 +16,26 @@ exports.list = function(req, res) {
 exports.add = function(req, res) {
 	var newSet = new MovieSet({});
 	for (i=0; i<3; i++) {
-		var newMovie = new Movie({title: req.body.title[i], genre: req.body.genre[i]});
-		newSet.movieset.addToSet(newMovie);
-		newSet.save(function(err) {
+		Movie.findOne({name: req.body.title[i]}).exec(function (err, response) {
 			if (err) {
 				console.log("Error", err);
+			} else if (!response) {
+				console.log("Hello" + req.body.title[i]); // WHY IS THIS UNDEFINED
 			}
-		});
-		newMovie.setIDs.addToSet(newSet);
-		newMovie.save(function(err) {
-			if (err) {
-				console.log("Error", err);
-			}
-		});
+		})
+		// var newMovie = new Movie({title: req.body.title[i], genre: req.body.genre[i]});
+		// newSet.movieset.addToSet(newMovie);
+		// newSet.save(function(err) {
+		// 	if (err) {
+		// 		console.log("Error", err);
+		// 	}
+		// });
+		// newMovie.setIDs.addToSet(newSet);
+		// newMovie.save(function(err) {
+		// 	if (err) {
+		// 		console.log("Error", err);
+		// 	}
+		// });
 	}
 	res.redirect('/movies');
 };
