@@ -19,7 +19,7 @@ exports.add = function(req, res) {
 	for (var i=0; i<3; i++) {
 		getMovie(i, req, newSet);
 	}
-	res.redirect('/movies');
+	res.redirect('/movies/recommendations');
 };
 
 function getMovie(i, req, newSet) {
@@ -33,7 +33,6 @@ function getMovie(i, req, newSet) {
 					console.log("Error", err);
 				}
 			});
-			console.log(newMovie + "This is what is being returned");
 			processMovie(newMovie, newSet);
 		} else {
 			processMovie(response, newSet);
@@ -54,6 +53,24 @@ function processMovie(movie, newSet) {
 			console.log("Error", err);
 		}
 	});
+
+	recEngine(newSet);
+}
+
+function recEngine(set) {
+	for (i=0; i<3; i++) {
+		callMovie(set.movieset[i]);
+	}
+}
+
+function callMovie(movieid) {
+	Movie.findOne({_id: movieid}).populate().exec(function (err, response) {
+		if (err) {
+			console.log("Error", err);
+		} else {
+			console.log(response);
+		}
+	})
 }
 
 exports.moviesets = function(req, res) {

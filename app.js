@@ -9,7 +9,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , mongoose = require('mongoose')
-  , movies = require('./routes/movies');
+  , movies = require('./routes/movies')
+  , engine = require('./routes/engine');
 
 var app = express();
 mongoose.connect(process.env.MONGOLAB_URI || 'localhost/movies');
@@ -36,6 +37,7 @@ app.get('/users', user.list);
 app.get('/movies', movies.list);
 app.get('/movies/delete', movies.delete);
 app.get('/moviesets', movies.moviesets);
+app.get('/movies/recommendations', engine.recommendations);
 
 // POST requests
 app.post('/movies/add', movies.add);
