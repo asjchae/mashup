@@ -8,37 +8,53 @@ exports.list = function(req, res) {
   		console.log("error", err);
   	} else {
   		var movies = response.sort(['title', -1]);
-  		res.render('movieList', {title: "All Movies", list: movies});
+  		var movies_id = response;
+  		res.render('movieList', {title: "All Movies", list: movies}); // , ids: movies_id
   	}
   });
 };
 
 exports.add = function(req, res) {
 	var newSet = new MovieSet({});
-	for (i=0; i<3; i++) {
-		Movie.findOne({name: req.body.title[i]}).exec(function (err, response) {
-			if (err) {
-				console.log("Error", err);
-			} else if (!response) {
-				console.log("Hello" + req.body.title[i]); // WHY IS THIS UNDEFINED
-			}
-		})
-		// var newMovie = new Movie({title: req.body.title[i], genre: req.body.genre[i]});
-		// newSet.movieset.addToSet(newMovie);
-		// newSet.save(function(err) {
-		// 	if (err) {
-		// 		console.log("Error", err);
-		// 	}
-		// });
-		// newMovie.setIDs.addToSet(newSet);
-		// newMovie.save(function(err) {
-		// 	if (err) {
-		// 		console.log("Error", err);
-		// 	}
-		// });
+	for (var i=0; i<3; i++) {
+		getMovie(i, req, newSet);
 	}
 	res.redirect('/movies');
 };
+
+function getMovie(i, req, newSet) {
+	Movie.findOne({title: req.body.title[i]}).exec(function (err, response) {
+		if (err) {
+			console.log("Error", err);
+		} else if (!response) {
+			var newMovie = new Movie({title: req.body.title[i], genre: req.body.genre[i]});
+			newMovie.save(function(err) {
+				if (err) {
+					console.log("Error", err);
+				}
+			});
+			console.log(newMovie + "This is what is being returned");
+			processMovie(newMovie, newSet);
+		} else {
+			processMovie(response, newSet);
+		}
+	});
+}
+
+function processMovie(movie, newSet) {
+	newSet.movieset.addToSet(movie);
+	newSet.save(function (err) {
+		if (err) {
+			console.log("Error", err);
+		}
+	});
+	movie.setIDs.addToSet(newSet);
+	movie.save(function(err) {
+		if (err) {
+			console.log("Error", err);
+		}
+	});
+}
 
 exports.moviesets = function(req, res) {
 	var allSets = MovieSet.find({}).populate({}).exec(function (err, response) {
@@ -53,5 +69,6 @@ exports.moviesets = function(req, res) {
 
 exports.delete = function(req, res) {
 	var delMovies = Movie.find({}).remove();
+	var delMovieSets = MovieSet.find({}).remove();
 	res.redirect('/movies');
 }
