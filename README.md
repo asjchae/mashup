@@ -15,3 +15,17 @@ Where I'm stuck:
 What I need to do after that:
 
 * The ability to search for movies related to a set ID.
+
+2/18/13 10:27PM
+
+What I have so far:
+
+* You can add movies to sets and sets to movies.
+
+Where I'm stuck:
+
+* When I try to display all the movies in alphabetical order, the ones with more set IDs come out on top. (I'm not going to bother with this until after I get other things working, though.)
+
+What I need to do next:
+
+* Displaying movies that also appeared in the set!
