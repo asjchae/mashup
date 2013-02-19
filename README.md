@@ -29,3 +29,18 @@ Where I'm stuck:
 What I need to do next:
 
 * Displaying movies that also appeared in the set!
+
+2/19/13 12:04PM
+
+What I have so far:
+
+* You can add movies to sets and sets to movies.
+* You can retrieve all the _ids of the movies in a movie set.
+
+Where I'm stuck:
+
+* I can't actually get the Movie object from the _id.
+
+What I need to do next:
+
+* More callback functions to get all the way down to compiling a list of movies that are related to the set that the user inputted? OMG brain explosion.
