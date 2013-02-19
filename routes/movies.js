@@ -9,10 +9,12 @@ exports.list = function(req, res) {
   	} else {
   		var movies = response.sort(['title', -1]);
   		var movies_id = response;
-  		res.render('movieList', {title: "All Movies", list: movies}); // , ids: movies_id
+  		res.render('movieList', {title: "All Movies", list: movies, ids: movies_id}); // 
   	}
   });
 };
+// The above function sorts by __v which makes movies that get inputted more often
+// come up on top even if they are not in alphabetical order.
 
 exports.add = function(req, res) {
 	var newSet = new MovieSet({});
@@ -53,24 +55,16 @@ function processMovie(movie, newSet) {
 			console.log("Error", err);
 		}
 	});
-
-	recEngine(newSet);
+	getMovieSet(newSet);
 }
 
-function recEngine(set) {
-	for (i=0; i<3; i++) {
-		callMovie(set.movieset[i]);
-	}
-}
-
-function callMovie(movieid) {
-	Movie.findOne({_id: movieid}).populate().exec(function (err, response) {
-		if (err) {
-			console.log("Error", err);
-		} else {
-			console.log(response);
+function getMovieSet(set) {
+	if (set.movieset.length == 3) {
+		for (i=0; i<3; i++) {
+			var movieInSet = Movie.findOne({_id: set.movieset[i]});
+			console.log(movieInSet);
 		}
-	})
+	}
 }
 
 exports.moviesets = function(req, res) {
