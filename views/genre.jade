@@ -6,7 +6,7 @@ block content
       br
     br
     each movie, i in list
-      | #{movie.title}
+      a(href='http://www.imdb.com/find?q=' + movie.title) #{movie.title}
       br
     br
     br
