@@ -118,7 +118,7 @@ function cleanUp(movies, movres, finalcall) {
 	for (var m = 0; m<movies.length; m++) {
 		if (recommendations.indexOf(movies[m]) >= 0) {
 			continue;
-		} else if (existing.indexOf(movies[m]) >= 0) {
+		} else if (existing.indexOf(movies[m]) >= 0) { // This part should work but doesn't.
 			console.log("exist");
 			continue;
 		} else {
