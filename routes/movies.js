@@ -28,6 +28,9 @@ exports.recommendations = function(req, res) {
 						// THE CALLBACK TO END ALL CALLBACKS.
 						finalized.sort();
 						res.render('recommendations', {title: "Recommendations", list: finalized});
+					} else {
+						var list = []
+						res.render('recommendations', {title: "No Recommendations", list: list});
 					}
 
 				});
