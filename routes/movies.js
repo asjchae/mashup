@@ -109,22 +109,26 @@ function getMovieIdsPairedWithMovie(movie, callback) {
 
 // Cleans up the list of movies. Still keeps the original set :(
 function cleanUp(movies, movres, finalcall) {
-	var recommendations = [];
-	var existing = [];
-	for (var r=0; r<movres.length; r++) {
-		existing.push(movres[r]._id);
-	}
+	var recommendations = Array();
+	var existing = movres.map(function(m) {
+		return m._id;
+	});
 
-	for (var m = 0; m<movies.length; m++) {
-		if (recommendations.indexOf(movies[m]) >= 0) {
-			continue;
-		} else if (existing.indexOf(movies[m]) >= 0) { // This part should work but doesn't.
-			console.log("exist");
-			continue;
-		} else {
-			recommendations.push(movies[m]);
-		}
-	}
+	recommendations = movies.filter(function (m) {
+		return existing.map(String).indexOf(String(m)) == -1;
+	});
+
+
+	// for (var m = 0; m<movies.length; m++) {
+	// 	if (recommendations.indexOf(movies[m]) >= 0) {
+	// 		continue;
+	// 	} else if (existing.indexOf(movies[m]) >= 0) { // This part should work but doesn't.
+	// 		console.log("exist");
+	// 		continue;
+	// 	} else {
+	// 		recommendations.push(movies[m]);
+	// 	}
+	// }
 
 	finalized(recommendations, function(finalized) {
 		finalcall(finalized);
