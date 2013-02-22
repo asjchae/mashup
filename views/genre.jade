@@ -1,10 +1,12 @@
 extend layout
 
 block content
-  div.allmovies
+  div.genre
     h2 #{title}
+      br
+    br
     each movie, i in list
-      | #{movie}
+      | #{movie.title}
       br
     br
     br

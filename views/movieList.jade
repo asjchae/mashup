@@ -1,13 +1,10 @@
 extend layout
 
 block content
-  | All Movies:
-  br
-  br
-  each movie, i in list
-    | #{movie.title}
+  div.allmovies
+    h2 #{title}
+    each movie, i in list
+      | #{movie.title}
+      br
     br
-    | #{movie._id}
     br
-  br
-  br

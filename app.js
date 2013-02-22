@@ -36,10 +36,11 @@ app.get('/users', user.list);
 app.get('/movies', movies.list);
 app.get('/movies/delete', movies.delete);
 app.get('/moviesets', movies.moviesets);
-app.get('/movies/recommendations', movies.recommendations);
+app.get('/movies/genres', movies.genres);
+app.get('/movies/genres/:genre', movies.genreSort);
 
 // POST requests
-app.post('/movies/add', movies.add);
+app.post('/movies/recommendations', movies.recommendations);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

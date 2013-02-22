@@ -6,3 +6,38 @@ body {
 a {
   color: #00B7FF;
 }
+
+.setform {
+	margin-top: 50px;
+	text-align: center;
+}
+
+.movietitle {
+	display: inline-block
+}
+
+.moviegenre {
+	display: inline-block;
+	margin-left: 20px;
+}
+
+.allgenres {
+	margin-top: 50px;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.genre {
+	margin-top: 50px;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+.allmovies {
+	margin-top: 50px;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}

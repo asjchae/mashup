@@ -16,14 +16,21 @@ exports.list = function(req, res) {
 
 
 // Adds movies/sets.
-exports.add = function(req, res) {
+exports.recommendations = function(req, res) {
 	var newSet = new MovieSet({});
 	var numSaved = 0;
 	for (var i=0; i<3; i++) {
 		getMovie(i, req, newSet, function() {
 			numSaved++;
 			if (numSaved == 3) {
-				getMovieSet(newSet);
+				getMovieSet(newSet, function(finalized) {
+					if (finalized.length > 1) {
+						// THE CALLBACK TO END ALL CALLBACKS.
+						finalized.sort();
+						res.render('recommendations', {title: "Recommendations", list: finalized});
+					}
+
+				});
 			}
 		});
 	}
@@ -66,18 +73,18 @@ function processMovie(movie, newSet, callback) {
 };
 
 // Gets the three movies that were in the set.
-function getMovieSet(set) {
+function getMovieSet(set, finalcall) {
 	MovieSet.findOne({"_id": set._id}).populate('movieset').exec(function (err, response) {
 		if (err) {
 			console.log("Error", err);
 		} else if (response) {
 			getSets(response.movieset, function(allSets) {
-				cleanUp(allSets);
+				cleanUp(allSets, response.movieset, finalcall);
 			});
 		} else if (!response) {
 			console.log("No response");
 		}
-	});
+	})
 }
 
 // For each movie in a set, get the sets the movie is in. Return a list of all sets.
@@ -101,18 +108,26 @@ function getMovieIdsPairedWithMovie(movie, callback) {
 }
 
 // Cleans up the list of movies. Still keeps the original set :(
-function cleanUp(movies) {
+function cleanUp(movies, movres, finalcall) {
 	var recommendations = [];
+	var existing = [];
+	for (var r=0; r<movres.length; r++) {
+		existing.push(movres[r]._id);
+	}
+
 	for (var m = 0; m<movies.length; m++) {
 		if (recommendations.indexOf(movies[m]) >= 0) {
+			continue;
+		} else if (existing.indexOf(movies[m]) >= 0) {
+			console.log("exist");
 			continue;
 		} else {
 			recommendations.push(movies[m]);
 		}
 	}
+
 	finalized(recommendations, function(finalized) {
-		console.log("omg callbacks");
-		console.log(finalized);
+		finalcall(finalized);
 	});
 }
 
@@ -130,17 +145,13 @@ function finalized(recommendations, callback) {
 	});
 }
 
-exports.recommendations = function(req, res) {
-
-}
-
 exports.moviesets = function(req, res) {
 	var allSets = MovieSet.find({}).populate({}).exec(function (err, response) {
 		if (err) {
 			console.log("error", err);
 		} else {
 			console.log(allSets);
-			res.render('movieSetList', {title: "All Movie Sets", list: response})
+			res.render('movieSetList', {title: "All Movie Sets", list: response});
 		}
 	});
 }
@@ -150,3 +161,17 @@ exports.delete = function(req, res) {
 	var delMovieSets = MovieSet.find({}).remove();
 	res.redirect('/movies');
 }
+
+exports.genres = function(req, res) {
+	res.render('allgenre', {title: "Genres"});
+}
+
+exports.genreSort = function(req, res) {
+	var colorful = req.params.genre;
+	var cats = Movie.find({'genre': colorful}).sort('title').exec(function (err, response) {
+		if (err) {
+			return console.log("error", err);
+		}
+	res.render('genre', {list: response, title: "Genre: " + req.params.genre});
+	})
+};
