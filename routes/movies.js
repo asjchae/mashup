@@ -110,24 +110,29 @@ function cleanUp(movies) {
 			recommendations.push(movies[m]);
 		}
 	}
-	console.log(recommendations);
-	finalized(recommendations);
+	finalized(recommendations, function(finalized) {
+		console.log("omg callbacks");
+		console.log(finalized);
+	});
 }
 
-function finalized(recommendations) {
-	console.log("Here");
+function finalized(recommendations, callback) {
+	var finalized = [];
 	Movie.find({_id: {$in: recommendations}}).exec(function (err, response) {
 		if (err) {
 			console.log("Error", err);
 		} else {
-			console.log("Hi");
-			console.log(response);
-
-			// omg things are happening.
+			for (var z=0; z<response.length; z++) {
+				finalized.push(response[z].title);
+			}
 		}
+		callback(finalized);
 	});
 }
 
+exports.recommendations = function(req, res) {
+
+}
 
 exports.moviesets = function(req, res) {
 	var allSets = MovieSet.find({}).populate({}).exec(function (err, response) {
